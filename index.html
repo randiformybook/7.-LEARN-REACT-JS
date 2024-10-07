@@ -14,7 +14,25 @@
     <script type="text/babel">
       const container = document.getElementById("root");
       const root = ReactDOM.createRoot(container);
-      root.render(<h1>Belajar ReactJS bareng WPU🚀</h1>);
+
+      const authors = ["WPU", "Randi", "Putri"];
+      const listAuthor = authors.map((author, index) => {
+        return <li key={index + author}>{author}</li>;
+      });
+
+      function Header() {
+        return (
+          <h1>
+            Belajar ReactJS bareng<h6> {listAuthor}</h6>
+          </h1>
+        );
+      }
+
+      function HomePage() {
+        return <Header />;
+      }
+
+      root.render(<HomePage />);
     </script>
     <!--
       Note: this page is a great way to try React but it's not suitable for production.
