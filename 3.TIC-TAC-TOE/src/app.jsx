@@ -21,7 +21,6 @@ function Board() {
     const newSquares = [...squares];
     newSquares[i] = "X";
     setSquares(newSquares);
-    console.log(newSquares);
   }
 
   return (
