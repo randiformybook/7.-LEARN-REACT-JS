@@ -27,7 +27,10 @@ function Board() {
     // else newSquares[i] = "O";
     newSquares[i] = xIsNext ? "X" : "O";
     setSquares(newSquares);
+<<<<<<< HEAD
     setXIsNext(!xIsNext);
+=======
+>>>>>>> 1b1cef1a17fd3a7276f55f39d53d2aa5121a619c
   }
 
   return (
