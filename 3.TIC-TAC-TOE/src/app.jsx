@@ -16,12 +16,18 @@ function Square({ value, onSquareClick }) {
 
 function Board() {
   const [squares, setSquares] = useState(Array(9).fill(null));
+  const [xIsNext, setXIsNext] = useState(true);
 
   function handleClick(i) {
+    // Jika Kotak Tic Tac Toe sudah terisi X or O
+    if (newSquares[i] === true) return; //ini membuat ketika kotak (array di dalam square bukan null) makan akan di return tanpa menjalanin coding yang di bawahnya
+
     const newSquares = [...squares];
-    newSquares[i] = "X";
+    // if (xIsNext) newSquares[i] = "X";
+    // else newSquares[i] = "O";
+    newSquares[i] = xIsNext ? "X" : "O";
     setSquares(newSquares);
-    console.log(newSquares);
+    setXIsNext(!xIsNext);
   }
 
   return (
