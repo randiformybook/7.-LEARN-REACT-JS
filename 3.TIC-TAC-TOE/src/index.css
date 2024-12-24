@@ -24,3 +24,8 @@ body {
   width: 150px;
   height: 150px;
 }
+
+.statusPlayer {
+  margin-bottom: 10px;
+  font-weight: bold;
+}

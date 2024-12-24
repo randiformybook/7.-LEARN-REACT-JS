@@ -14,19 +14,14 @@ Square.propTypes = {
 };
 
 function Board() {
-  const [history, setHistory] = useState([Array(9).fill("")]);
-  const [stepNumber, setStepNumber] = useState(0);
-  // ini number biasa dimulai dari 0
+  const [squares, setSquares] = useState(Array(9).fill(""));
   const [xIsNext, setXIsNext] = useState(true);
 
   function handleClick(i) {
-    // Potong Riwayat kalau perlu
-    const newHistory = history.slice(0, stepNumber + 1);
-    const currentSquares = newHistory[newHistory.length - 1];
-    // Salin state board saat ini
-    const squares = [...currentSquares];
-
-    if (squares[i] || calculateTheWinner(squares)) return; //ini membuat ketika kotak (array di dalam square bukan null) makan akan di return tanpa menjalanin coding yang di bawahnya
+    // Salin state squares untuk mencegah mutasi langsung
+    const newSquares = [...squares];
+    // Jika kotak sudah diisi atau ada pemenang, hentikan eksekusi
+    if (newSquares[i] || calculateTheWinner(squares)) return; //ini membuat ketika kotak (array di dalam square bukan null) makan akan di return tanpa menjalanin coding yang di bawahnya
 
     // Logika, apabila Kondisi xIsNext === true, maka giliran X, dan apabila xIsNext === false, maka giliran O
     newSquares[i] = xIsNext ? "X" : "O";
