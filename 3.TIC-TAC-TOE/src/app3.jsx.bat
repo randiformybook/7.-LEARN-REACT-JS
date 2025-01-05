@@ -1,4 +1,4 @@
-// Ini app.jsx dari game Tic Tac Toe yang lebih di kembangkan dengan System limit posisi dari tiap player yang dimana setiap user X maupun O hanya boleh maximum 3 posisi aja di dalam tiap square
+// Ini Final dari Tic Tac Toe Game ReactJS
 
 import { useState } from "react";
 import PropTypes from "prop-types";
@@ -18,11 +18,8 @@ Square.propTypes = {
 function Board() {
   const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill("")]);
+  console.log("History: ", history);
   const [stepNumber, setStepNumber] = useState(0);
-
-  // Track Positions for X dan O
-  const [xPositions, setXPositions] = useState([]);
-  const [oPositions, setOPositions] = useState([]);
 
   const currentSquares = history[stepNumber];
 
@@ -30,22 +27,13 @@ function Board() {
   function handleClick(i) {
     // Potong Riwayat kalau perlu
     const newHistory = history.slice(0, stepNumber + 1);
+
     const lastSquares = newHistory[newHistory.length - 1];
+
     // Salin state board saat ini
     const squares = [...lastSquares];
 
     if (squares[i] || calculateTheWinner(squares)) return; //ini membuat ketika kotak (array di dalam square bukan null) makan akan di return tanpa menjalanin coding yang di bawahnya
-
-    // Determine current player's positions
-    const playerPosition = xIsNext ? xPositions : oPositions;
-    const setPlayerPosition = xIsNext ? setXPositions : setOPositions;
-
-    if (playerPosition.length >= 3) {
-      alert(
-        "Maaf, Anda sudah mencapai batas posisi 3 kotak, harus menghilangkan posisi yang sudah ada sebelumnya"
-      );
-      return;
-    }
 
     // Isi kotak dengan X atau O
     squares[i] = xIsNext ? "X" : "O";
@@ -55,27 +43,16 @@ function Board() {
     setStepNumber(newHistory.length); // update stepNumber
     setXIsNext(!xIsNext); // Ganti X dan O
 
-    setPlayerPosition([...playerPosition, i]);
-
     console.log("Step : ", stepNumber);
     console.log("new History : ", newHistory);
-    console.table({ lastSquares, squares });
-    // console.log("Last Squares: ", lastSquares);
-    // console.log("squares : ", squares);
     console.log("currentSquares : ", currentSquares);
+    console.log("squares : ", squares);
   }
 
-  function removePiece(i) {
-    const currentSquares = [...history[stepNumber]];
-    if (currentSquares[i] === (xIsNext ? "X" : "O")) {
-      currentSquares[i] = "";
-
-      const setPlayerPosition = xIsNext ? setXPositions : setOPositions;
-      const playerPositions = xIsNext ? xPositions : oPositions;
-      setPlayerPosition(playerPositions.filter((pos) => pos !== i));
-      setHistory([...history.slice(0, stepNumber + 1), currentSquares]);
-      console.log(`Remove piece at position : ${i}`);
-    }
+  // Navigasi ke Langkah Sebelumnya
+  function jumpTo(step) {
+    setStepNumber(step);
+    setXIsNext(step % 2 === 0);
   }
 
   // Tentukan Status Pemain
@@ -93,31 +70,23 @@ function Board() {
       </li>
     );
   });
-  // Navigasi ke Langkah Sebelumnya
-  function jumpTo(step) {
-    setStepNumber(step);
-    setXIsNext(step % 2 === 0);
-  }
 
   return (
     <>
       <div className="statusPlayer">{statusPlayer}</div>
       <div className="board">
         {currentSquares.map((square, i) => (
-          <Square
-            key={i}
-            value={square}
-            onSquareClick={() =>
-              xIsNext
-                ? xPositions.includes(i)
-                  ? removePiece(i)
-                  : handleClick(i)
-                : oPositions.includes(i)
-                ? removePiece(i)
-                : handleClick(i)
-            }
-          />
+          <Square key={i} value={square} onSquareClick={() => handleClick(i)} />
         ))}
+        {/* <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+      <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+      <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+      <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+      <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+      <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+      <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+      <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+      <Square value={squares[8]} onSquareClick={() => handleClick(8)} /> */}
       </div>
       <div className="history">
         <ol>{moves}</ol>
