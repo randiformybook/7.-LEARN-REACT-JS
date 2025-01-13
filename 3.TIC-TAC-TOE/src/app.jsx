@@ -66,14 +66,22 @@ function Board() {
   }
 
   function removePiece(i) {
-    const currentSquares = [...history[stepNumber]];
+    const currentSquares = [...history[stepNumber]]; // Salin papan saat ini
+    const setPlayerPosition = xIsNext ? setXPositions : setOPositions;
+    const playerPositions = xIsNext ? xPositions : oPositions;
+
+    // Periksa apakah kotak yang diklik adalah milik pemain saat ini
     if (currentSquares[i] === (xIsNext ? "X" : "O")) {
       currentSquares[i] = "";
 
-      const setPlayerPosition = xIsNext ? setXPositions : setOPositions;
-      const playerPositions = xIsNext ? xPositions : oPositions;
+      // Perbarui posisi pemain dengan menghapus posisi yang dihapus
       setPlayerPosition(playerPositions.filter((pos) => pos !== i));
-      setHistory([...history.slice(0, stepNumber + 1), currentSquares]);
+
+      // Perbarui riwayat papan
+      const newHistory = [...history.slice(0, stepNumber + 1), currentSquares];
+      setHistory(newHistory);
+      // Pastikan langkah saat ini diatur ulang ke langkah terakhir
+      setStepNumber(newHistory.length - 1);
       console.log(`Remove piece at position : ${i}`);
     }
   }
@@ -107,14 +115,15 @@ function Board() {
           <Square
             key={i}
             value={square}
-            onSquareClick={() =>
-              xIsNext
-                ? xPositions.includes(i)
-                  ? removePiece(i)
-                  : handleClick(i)
-                : oPositions.includes(i)
-                ? removePiece(i)
-                : handleClick(i)
+            onSquareClick={
+              () =>
+                xIsNext
+                  ? xPositions.includes(i)
+                    ? removePiece(i) // Hapus bidak jika posisi termasuk milik X
+                    : handleClick(i) // Tambahkan bidak jika tidak
+                  : oPositions.includes(i)
+                  ? removePiece(i) // Hapus bidak jika posisi termasuk milik O
+                  : handleClick(i) // Tambahkan bidak jika tidak
             }
           />
         ))}
