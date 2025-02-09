@@ -30,13 +30,13 @@ h1 {
   text-align: center;
   background-color: #283618;
   color: white;
-  font-size: 6rem;
-  padding: 4rem 0 1rem;
+  font-size: 4rem;
+  padding: 1rem 0 1rem;
 }
 
 .add-form {
   background-color: #dda15e;
-  padding: 2.8rem 0;
+  padding: 1.8rem 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,9 +55,13 @@ input {
   font-family: inherit;
   border: none;
   border-radius: 3rem;
-  padding: 1.2rem 3.2rem;
+  padding: 1.2rem 1.2rem;
   font-size: 1.8rem;
   cursor: pointer;
+}
+
+select {
+  margin: 0 1rem;
 }
 
 button {
@@ -69,9 +73,10 @@ button {
 .list {
   background-image: url(img/paper-bg.jpg);
   background-repeat: repeat-y;
+  background-size: 100% 30rem;
   background-attachment: local;
   color: #fefae0;
-  padding: 2.3rem 0 0;
+  padding: 1rem 0 0;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -90,12 +95,12 @@ button {
 
 .list li {
   color: #283618;
-  font-size: 4rem;
+  font-size: 2.8rem;
   font-weight: bold;
   display: flex;
   align-items: center;
-  gap: 2rem;
-  margin-bottom: 3.6rem;
+  gap: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .list input[type="checkbox"] {
@@ -119,7 +124,7 @@ button {
 .actions {
   background-color: #606c38;
   width: 100%;
-  padding: 2rem 0;
+  padding: 1rem 0;
   text-align: center;
 }
 
