@@ -22,11 +22,17 @@ const groceryItems = [
 ];
 
 export default function App() {
+  const [items, setItems] = useState(groceryItems);
+
+  function handleAddItem(item) {
+    setItems([...items, item]); // Add new item to the existing list
+  }
+
   return (
     <div className="app">
       <Header />
-      <FormAdd />
-      <GrocierList />
+      <FormAdd onAddItem={handleAddItem} />
+      <GrocierList items={items} />
       <Footer />
     </div>
   );
@@ -36,13 +42,26 @@ function Header() {
   return <h1>Catatan Belanjaku 📝</h1>;
 }
 
-function FormAdd() {
+function FormAdd({ onAddItem }) {
   const [name, setName] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
   function handleSubmit(e) {
     // Ketika Click/Enter, pertama prevent/mencegah dari menjalankan function submit default by browser, karena button submit di sini tidak mengirim url submit, hanya menambahkan list
     e.preventDefault(); //Berfungsi untuk tidak menjalankan fungsi Default
-    alert(name);
+    if (!name) return; // Jika tidak ada inputan, maka tidak akan menambahkan list
+    // Membuat objek baru
+    const newItem = {
+      name: name,
+      quantity: quantity,
+      checked: false,
+      id: Date.now(),
+    }; // id di set dengan waktu sekarang
+    console.log(newItem);
+    // Membuat fungsi handleAddItem yang akan dipanggil oleh parent
+    onAddItem(newItem);
+    setName("");
+    setQuantity(1);
   }
 
   const quantityNum = [...Array(20)].map((_, i) => (
@@ -56,7 +75,13 @@ function FormAdd() {
     <form className="add-form" onSubmit={handleSubmit}>
       <h3>Hari ini belanja apa kita?</h3>
       <div>
-        <select>{quantityNum}</select>
+        <select
+          value={quantity}
+          onChange={(e) => setQuantity(Number(e.target.value))}
+          //Number () digunakan untuk mengubah string menjadi angka
+        >
+          {quantityNum}
+        </select>
         <input
           type="text"
           placeholder="nama barang..."
@@ -69,12 +94,12 @@ function FormAdd() {
   );
 }
 
-function GrocierList() {
+function GrocierList({ items }) {
   return (
     <>
       <div className="list">
         <ul>
-          {groceryItems.map((item) => (
+          {items.map((item) => (
             <ItemList item={item} key={item.id} />
           ))}
         </ul>
